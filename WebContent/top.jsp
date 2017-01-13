@@ -57,7 +57,7 @@
 			<div class="icon"><img src="./icon?user_id=${message.userId}" width="50" height="50"  /></div>
 			<div class="message">
 				<div class="account-name">
-					<span class="account"><c:out value="${message.account}" /></span>
+					<span class="account"><a href="?user_id=${message.userId}"><c:out value="${message.account}" /></a></span>
 					<span class="name"><c:out value="${message.name}" /></span>
 				</div>
 				<div class="text"><c:out value="${message.text}" /></div>
