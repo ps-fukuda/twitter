@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 
 import chapter6.beans.User;
+import chapter6.service.SignUpService;
 import chapter6.service.UserService;
 
 @WebServlet(urlPatterns = { "/signup" })
@@ -63,6 +64,9 @@ public class SignUpServlet extends HttpServlet {
 			messages.add("パスワードを入力してください");
 		}
 		// TODO アカウントが既に利用されていないか、メールアドレスが既に登録されていないかなどの確認も必要
+		if (new SignUpService().validate(account)) {
+			messages.add("このアカウント名またはメールアドレスは既に登録されています");
+		}
 		if (messages.size() == 0) {
 			return true;
 		} else {

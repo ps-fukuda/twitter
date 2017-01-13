@@ -20,6 +20,30 @@ import chapter6.utils.StreamUtil;
 
 public class UserDao {
 
+	public boolean signupDuplicateCheck(Connection connection, String account) {
+		PreparedStatement ps = null;
+		try {
+			String sql = "select * from user where (account = ? or email = ?)";
+
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, account);
+			ps.setString(2, account);
+
+			ResultSet rs = ps.executeQuery();
+			// 結果が存在するか判定
+			if (rs.next()) {
+				System.out.println("true");
+				return true;
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+		System.out.println("false");
+		return false;
+	}
+
 	public User getUser(Connection connection, String accountOrEmail,
 			String password) {
 
