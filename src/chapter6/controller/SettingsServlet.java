@@ -50,29 +50,29 @@ public class SettingsServlet extends HttpServlet {
 
 		List<String> messages = new ArrayList<String>();
 
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 
 		User editUser = getEditUser(request);
-		session.setAttribute("editUser", editUser);
+		request.setAttribute("editUser", editUser);
 
 		if (isValid(request, messages) == true) {
 
 			try {
 				new UserService().update(editUser);
 			} catch (NoRowsUpdatedRuntimeException e) {
-				session.removeAttribute("editUser");
+				//session.removeAttribute("editUser");
 				messages.add("他の人によって更新されています。最新のデータを表示しました。データを確認してください。");
-				session.setAttribute("errorMessages", messages);
+				request.setAttribute("errorMessages", messages);
 				response.sendRedirect("settings");
 			}
 
-			session.setAttribute("loginUser", editUser);
-			session.removeAttribute("editUser");
+			request.setAttribute("loginUser", editUser);
+			//session.removeAttribute("editUser");
 
 			response.sendRedirect("./");
 		} else {
-			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("settings");
+			request.setAttribute("errorMessages", messages);
+			request.getRequestDispatcher("settings.jsp").forward(request, response);
 		}
 	}
 

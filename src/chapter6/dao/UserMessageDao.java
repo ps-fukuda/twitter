@@ -41,10 +41,11 @@ public class UserMessageDao {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT * FROM user_message ");
-			sql.append("WHERE user_id = " + userId + " ");
+			sql.append("WHERE user_id = ? ");
 			sql.append("ORDER BY insert_date DESC limit " + num);
 
 			ps = connection.prepareStatement(sql.toString());
+			ps.setInt(1, userId);
 			ResultSet rs = ps.executeQuery();
 			List<UserMessage> ret = toUserMessageList(rs);
 			return ret;
@@ -61,10 +62,11 @@ public class UserMessageDao {
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT * FROM user_message ");
-			sql.append("WHERE account = \"" + account + "\" ");
+			sql.append("WHERE account = ?");
 			sql.append("ORDER BY insert_date DESC limit " + num);
 
 			ps = connection.prepareStatement(sql.toString());
+			ps.setString(1, account);
 			ResultSet rs = ps.executeQuery();
 			List<UserMessage> ret = toUserMessageList(rs);
 			return ret;
