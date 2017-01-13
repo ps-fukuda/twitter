@@ -13,6 +13,16 @@ import chapter6.dao.UserMessageDao;
 
 public class MessageService {
 
+	private String userId = null;
+
+	public MessageService() {
+
+	}
+
+	public MessageService(String id) {
+		this.userId = id;
+	}
+
 	public void register(Message message) {
 
 		Connection connection = null;
@@ -39,11 +49,16 @@ public class MessageService {
 	public List<UserMessage> getMessage() {
 
 		Connection connection = null;
+		List<UserMessage> ret;
 		try {
 			connection = getConnection();
 
 			UserMessageDao messageDao = new UserMessageDao();
-			List<UserMessage> ret = messageDao.getUserMessages(connection, LIMIT_NUM);
+			if (userId != null) {
+				ret = messageDao.getSpecificUserMessages(connection, userId, LIMIT_NUM);
+			} else {
+				ret = messageDao.getUserMessages(connection, LIMIT_NUM);
+			}
 
 			commit(connection);
 

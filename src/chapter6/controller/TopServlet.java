@@ -20,9 +20,18 @@ public class TopServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-
+		List<UserMessage> messages;
 		String userId = request.getParameter("user_id");
-
+		if (userId != null) {
+			try {
+				Integer.parseInt(userId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			messages = new MessageService(userId).getMessage();
+		} else {
+			messages = new MessageService().getMessage();
+		}
 
 		User user = (User) request.getSession().getAttribute("loginUser");
 		boolean isShowMessageForm;
@@ -32,7 +41,7 @@ public class TopServlet extends HttpServlet {
 			isShowMessageForm = false;
 		}
 
-		List<UserMessage> messages = new MessageService().getMessage();
+
 
 		request.setAttribute("messages", messages);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
