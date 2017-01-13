@@ -45,12 +45,24 @@ public class SignUpServlet extends HttpServlet {
 			user.setDescription(request.getParameter("description"));
 
 			new UserService().register(user);
+			session.removeAttribute("editUser");
 
 			response.sendRedirect("./");
 		} else {
 			session.setAttribute("errorMessages", messages);
+			session.setAttribute("editUser", getEditUser(request));
 			response.sendRedirect("signup");
 		}
+	}
+
+	private User getEditUser(HttpServletRequest request) {
+		User editUser = new User();
+		editUser.setName(request.getParameter("name"));
+		editUser.setAccount(request.getParameter("account"));
+		editUser.setEmail(request.getParameter("email"));
+		editUser.setDescription(request.getParameter("description"));
+
+		return editUser;
 	}
 
 	private boolean isValid(HttpServletRequest request, List<String> messages) {

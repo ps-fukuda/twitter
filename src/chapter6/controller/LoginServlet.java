@@ -37,14 +37,14 @@ public class LoginServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		if (user != null) {
-
 			session.setAttribute("loginUser", user);
+			session.removeAttribute("editAccount");
 			response.sendRedirect("./");
 		} else {
-
 			List<String> messages = new ArrayList<String>();
 			messages.add("ログインに失敗しました。");
 			session.setAttribute("errorMessages", messages);
+			session.setAttribute("editAccount", accountOrEmail);
 			response.sendRedirect("login");
 		}
 	}

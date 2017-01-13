@@ -25,7 +25,7 @@
 
 <form action="login" method="post"><br />
 	<label for="accountOrEmail">アカウント名かメールアドレス</label>
-	<input name="accountOrEmail" id="accountOrEmail"/> <br />
+	<input name="accountOrEmail" id="accountOrEmail" value="${editAccount}"/> <br />
 
 	<label for="password">パスワード</label>
 	<input name="password" type="password" id="password"/> <br />
