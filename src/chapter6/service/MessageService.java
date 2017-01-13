@@ -13,14 +13,19 @@ import chapter6.dao.UserMessageDao;
 
 public class MessageService {
 
-	private String userId = null;
+	private int userId;
+	private String account;
 
 	public MessageService() {
 
 	}
 
-	public MessageService(String id) {
+	public MessageService(int id) {
 		this.userId = id;
+	}
+
+	public MessageService(String account) {
+		this.account = account;
 	}
 
 	public void register(Message message) {
@@ -54,8 +59,10 @@ public class MessageService {
 			connection = getConnection();
 
 			UserMessageDao messageDao = new UserMessageDao();
-			if (userId != null) {
+			if (userId != 0) {
 				ret = messageDao.getSpecificUserMessages(connection, userId, LIMIT_NUM);
+			} else if (account != null) {
+				ret = messageDao.getSpecificAccountMessages(connection, account, LIMIT_NUM);
 			} else {
 				ret = messageDao.getUserMessages(connection, LIMIT_NUM);
 			}

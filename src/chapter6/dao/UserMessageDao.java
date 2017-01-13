@@ -35,13 +35,33 @@ public class UserMessageDao {
 		}
 	}
 
-	public List<UserMessage> getSpecificUserMessages(Connection connection, String userId, int num) {
+	public List<UserMessage> getSpecificUserMessages(Connection connection, int userId, int num) {
 
 		PreparedStatement ps = null;
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT * FROM user_message ");
 			sql.append("WHERE user_id = " + userId + " ");
+			sql.append("ORDER BY insert_date DESC limit " + num);
+
+			ps = connection.prepareStatement(sql.toString());
+			ResultSet rs = ps.executeQuery();
+			List<UserMessage> ret = toUserMessageList(rs);
+			return ret;
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+	public List<UserMessage> getSpecificAccountMessages(Connection connection, String account, int num) {
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT * FROM user_message ");
+			sql.append("WHERE account = \"" + account + "\" ");
 			sql.append("ORDER BY insert_date DESC limit " + num);
 
 			ps = connection.prepareStatement(sql.toString());

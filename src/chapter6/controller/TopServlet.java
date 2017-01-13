@@ -22,13 +22,17 @@ public class TopServlet extends HttpServlet {
 			HttpServletResponse response) throws IOException, ServletException {
 		List<UserMessage> messages;
 		String userId = request.getParameter("user_id");
+		String account = request.getParameter("account");
 		if (userId != null) {
+			int id = 0;
 			try {
-				Integer.parseInt(userId);
+				id = Integer.parseInt(userId);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			messages = new MessageService(userId).getMessage();
+			messages = new MessageService(id).getMessage();
+		} else if (account != null) {
+			messages = new MessageService(account).getMessage();
 		} else {
 			messages = new MessageService().getMessage();
 		}
