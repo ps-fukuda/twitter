@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -34,35 +33,27 @@ public class SignUpServlet extends HttpServlet {
 
 		List<String> messages = new ArrayList<String>();
 
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
+
+		User user = new User();
+		user.setName(request.getParameter("name"));
+		user.setAccount(request.getParameter("account"));
+		user.setPassword(request.getParameter("password"));
+		user.setEmail(request.getParameter("email"));
+		user.setDescription(request.getParameter("description"));
+
 		if (isValid(request, messages) == true) {
 
-			User user = new User();
-			user.setName(request.getParameter("name"));
-			user.setAccount(request.getParameter("account"));
-			user.setPassword(request.getParameter("password"));
-			user.setEmail(request.getParameter("email"));
-			user.setDescription(request.getParameter("description"));
-
 			new UserService().register(user);
-			session.removeAttribute("editUser");
+			//session.removeAttribute("editUser");
 
 			response.sendRedirect("./");
 		} else {
-			session.setAttribute("errorMessages", messages);
-			session.setAttribute("editUser", getEditUser(request));
-			response.sendRedirect("signup");
+			request.setAttribute("errorMessages", messages);
+			request.setAttribute("editUser", user);
+			//response.sendRedirect("signup");
+			request.getRequestDispatcher("signup.jsp").forward(request, response);
 		}
-	}
-
-	private User getEditUser(HttpServletRequest request) {
-		User editUser = new User();
-		editUser.setName(request.getParameter("name"));
-		editUser.setAccount(request.getParameter("account"));
-		editUser.setEmail(request.getParameter("email"));
-		editUser.setDescription(request.getParameter("description"));
-
-		return editUser;
 	}
 
 	private boolean isValid(HttpServletRequest request, List<String> messages) {
