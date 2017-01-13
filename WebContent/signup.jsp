@@ -23,19 +23,19 @@
 </c:if>
 <form action="signup" method="post"><br />
 	<label for="name">名前</label>
-	<input name="name" id="name"/>（名前はあなたの公開プロフィールに表示されます）<br />
+	<input name="name" id="name" value="${editUser.name}"/>（名前はあなたの公開プロフィールに表示されます）<br />
 
 	<label for="account">アカウント名</label>
-	<input name="account" id="account"/>（あなたの公開プロフィール: http://localhost:8080/Chapter6/?account=アカウント名）<br />
+	<input name="account" id="account" value="${editUser.account}"/>（あなたの公開プロフィール: http://localhost:8080/Chapter6/?account=アカウント名）<br />
 
 	<label for="password">パスワード</label>
 	<input name="password" type="password" id="password"/> <br />
 
 	<label for="email">メールアドレス</label>
-	<input name="email" id="email"/> <br />
+	<input name="email" id="email" value="${editUser.email}"/> <br />
 
 	<label for="description">説明</label>
-	<textarea name="description" cols="35" rows="5" id="description"></textarea> <br />
+	<textarea name="description" cols="35" rows="5" id="description">${editUser.description}</textarea> <br />
 
 	<input type="submit" value="登録" /> <br />
 	<a href="./">戻る</a>
